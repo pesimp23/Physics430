@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Jan 23 15:03:07 2019
+
+@author: Paige
+"""
+
+import numpy as np
+import matplotlib.pyplot as plt
+import numpy.linalg as la
+
+#%% a
+N=50
+a=0
+b=2
+x,h=np.linspace(a,b,N,retstep=True)
+
+y=x/9-np.sin(3*x)/(27*np.cos(6))
+
+A=np.zeros((N,N))
+
+for i in range(1,N-1):
+    A[i][i]=-2/h**2+9
+    A[i][i-1]=1/h**2
+    A[i][i+1]=1/h**2
+A[0][0]=1
+A[N-1][N-1]=1
+A[N-1][N-2]=-1
+
+B=np.copy(x)
+B[-1]=0
+
+Y=la.solve(A,B)
+
+plt.figure()
+plt.plot(x,y,'b')
+plt.plot(x,Y,'r.')
+plt.show()
+print(np.sqrt(np.mean((Y-y)**2)))
+
+#%% b
+N=50
+a=0
+b=2
+x,h=np.linspace(a,b,N,retstep=True)
+
+y=x/9-np.sin(3*x)/(27*np.cos(6))
+
+A=np.zeros((N,N))
+
+for i in range(1,N-1):
+    A[i][i]=-2/h**2+9
+    A[i][i-1]=1/h**2
+    A[i][i+1]=1/h**2
+A[0][0]=1
+A[N-1][N-1]=3/(2*h)
+A[N-1][N-2]=-2/h
+A[N-1][N-3]=1/(2*h)
+
+B=np.copy(x)
+B[-1]=0
+
+Y=la.solve(A,B)
+
+plt.figure()
+plt.plot(x,y,'b')
+plt.plot(x,Y,'r.')
+plt.show()
+
+print(np.sqrt(np.mean((Y-y)**2)))
+
+
+
+
+
+
+
